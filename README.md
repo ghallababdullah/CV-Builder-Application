@@ -1,73 +1,185 @@
-# Welcome to your Lovable project
+# 🚀 CV Builder Application
 
-## Project info
+![Java](https://img.shields.io/badge/Java-17%2B-blue.svg)
+![JavaFX](https://img.shields.io/badge/JavaFX-17%2B-orange.svg)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-13%2B-blue.svg)
+![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-**URL**: https://lovable.dev/projects/3dd6915b-e4ec-462a-b35f-9d541c4c669a
+A professional **desktop application** for creating, managing, and exporting CVs/resumes to PDF format.  
+Built with **JavaFX** and **PostgreSQL**, featuring **multi-language support** and professional **LaTeX-based PDF generation**.
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## ✨ Features
 
-**Use Lovable**
+- 📝 **CV Creation & Management**: Create and edit multiple CVs with comprehensive sections
+- 🌐 **Multi-Language Support**: English and Russian interface support
+- 💾 **Database Storage**: PostgreSQL backend for data persistence
+- 📄 **Professional PDF Export**: LaTeX-based PDF generation with beautiful formatting
+- 🔐 **User Authentication**: Secure login and registration system
+- 🎨 **Intuitive UI**: Clean JavaFX interface with responsive design
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/3dd6915b-e4ec-462a-b35f-9d541c4c669a) and start prompting.
+**CV Sections Included:**
 
-Changes made via Lovable will be committed automatically to this repo.
+- Personal Information
+- Education History
+- Work Experience
+- Skills with proficiency levels
+- Languages with proficiency ratings
+- Professional Summary
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🛠️ Technology Stack
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- **Frontend**: JavaFX 17+, FXML, CSS
+- **Backend**: Java 17+
+- **Database**: PostgreSQL
+- **PDF Generation**: XeLaTeX + FreeMarker templates
+- **Build Tool**: Maven (recommended)
 
-Follow these steps:
+---
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 🚀 Usage
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### Registration & Login
 
-# Step 3: Install the necessary dependencies.
-npm i
+- Launch app → Register or login
+- Passwords securely stored in DB
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+### Creating a CV
+
+- Fill in personal info, education, work experience, skills & languages
+
+### Editing & Management
+
+- View CVs on dashboard → Edit/Delete
+
+### Exporting to PDF
+
+- Click **Print CV** → Professional LaTeX PDF generated
+
+---
+
+## 🔧 Configuration
+
+- **Database** → update credentials in `DatabaseHandler.java`
+- **LaTeX** → ensure `XeLaTeX` is in system PATH
+- **Languages** → add `language_xx_XX.properties` in `resources/bundle/`
+
+## 🐛 Troubleshooting
+
+- **DB Connection Error** → Check credentials & ensure PostgreSQL is running
+- **PDF Fails** → Ensure `XeLaTeX` installed + templates exist
+- **UI Not Loading** → Verify JavaFX in classpath
+- **Language Issues** → Check `.properties` files
+
+### Database Setup
+
+### Configure connection in DatabaseHandler.java:
+
+````
+private static final String DB_URL = "jdbc:postgresql://localhost:5432/cv_builder";
+private static final String DB_USER = "your-username";
+private static final String DB_PASSWORD = "your-password";```
+````
+
+# Create the database:
+
+```sql
+CREATE DATABASE cv_builder;
+-- Users table
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- CVs table
+CREATE TABLE cvs (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    title VARCHAR(200) NOT NULL,
+    full_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    phone VARCHAR(20),
+    address TEXT,
+    summary TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Education table
+CREATE TABLE education (
+    id SERIAL PRIMARY KEY,
+    cv_id INTEGER REFERENCES cvs(id) ON DELETE CASCADE,
+    institution VARCHAR(200) NOT NULL,
+    degree VARCHAR(100),
+    field_of_study VARCHAR(100),
+    start_date DATE,
+    end_date DATE,
+    description TEXT
+);
+
+-- Experience table
+CREATE TABLE experience (
+    id SERIAL PRIMARY KEY,
+    cv_id INTEGER REFERENCES cvs(id) ON DELETE CASCADE,
+    company VARCHAR(200) NOT NULL,
+    position VARCHAR(100),
+    location VARCHAR(100),
+    start_date DATE,
+    end_date DATE,
+    description TEXT
+);
+
+-- Skills table
+CREATE TABLE skills (
+    id SERIAL PRIMARY KEY,
+    cv_id INTEGER REFERENCES cvs(id) ON DELETE CASCADE,
+    name VARCHAR(100) NOT NULL,
+    level INTEGER CHECK (level BETWEEN 1 AND 5)
+);
+
+-- Languages table
+CREATE TABLE languages (
+    id SERIAL PRIMARY KEY,
+    cv_id INTEGER REFERENCES cvs(id) ON DELETE CASCADE,
+    name VARCHAR(50) NOT NULL,
+    proficiency VARCHAR(20)
+);
+---
+---
 ```
 
-**Edit a file directly in GitHub**
+## 📸 Screenshots
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Log in
 
-**Use GitHub Codespaces**
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/0e6f25dd-bd49-419e-b0ed-af225bc238f3" />
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Register
 
-## What technologies are used for this project?
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/4e06b6f2-5140-4019-be8f-ca9b6b8c6a8b" />
 
-This project is built with:
+### CV Editor
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/3488661c-c18e-4a18-882f-e77ecfed986e" />
 
-## How can I deploy this project?
+---
 
-Simply open [Lovable](https://lovable.dev/projects/3dd6915b-e4ec-462a-b35f-9d541c4c669a) and click on Share -> Publish.
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/e55174b7-ed01-4647-8b2a-d334172d3a51" />
 
-## Can I connect a custom domain to my Lovable project?
+---
 
-Yes, you can!
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/69d2a747-d28e-430a-bc8c-607d44d3d832" />
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+---
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+### Eample of the generated pdf file (notic that the dates will be in the language of the system) :
+
+<img width="744" height="825" alt="image" src="https://github.com/user-attachments/assets/87b1acaf-a07c-4bcb-a4b7-cb06558e475f" />
+
+> > > > > > > 6b08ed0d93eca85833d6f17a958bc499d376c260
