@@ -1,0 +1,31 @@
+# === Java build outputs ===
+/bin/
+/target/
+/out/
+
+# === IDE specific ===
+# Eclipse
+.project
+.classpath
+.settings/
+# IntelliJ
+.idea/
+*.iml
+*.iws
+# VS Code
+.vscode/
+
+# === OS specific ===
+.DS_Store
+Thumbs.db
+
+# === Logs & temp files ===
+*.log
+*.tmp
+
+# === Sensitive config files ===
+# Your DB credentials
+src\database.properties
+
+# Optionally ignore template backup if you don’t want to push it
+# src/components/CVBuilder/resources/database.properties.template

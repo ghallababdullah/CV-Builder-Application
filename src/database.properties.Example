@@ -1,0 +1,11 @@
+# === Database Configuration Template ===
+# Copy this file to "database.properties" and fill in your credentials
+
+# JDBC connection URL (example: PostgreSQL on localhost:5432, database cvbuilder)
+db.url=jdbc:postgresql://localhost:5432/cvbuilder
+
+# Database username
+db.user=YOUR_USERNAME_HERE
+
+# Database password
+db.password=YOUR_PASSWORD_HERE
