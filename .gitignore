@@ -27,5 +27,3 @@ Thumbs.db
 # Your DB credentials
 src\database.properties
 
-# Optionally ignore template backup if you don’t want to push it
-# src/components/CVBuilder/resources/database.properties.template
